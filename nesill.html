@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<title>Nesil</title>
+<style>
+  :root{
+    --bg:#ffb6c9;      /* arka plan pembe */
+    --heart:#ff2d72;   /* kalp rengi (koyu pembe) */
+    --text:#ffffff;    /* yazı rengi */
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0; background:var(--bg);
+    font-family: "Arial Black", Arial, system-ui, sans-serif;
+    overflow:hidden; display:flex; flex-direction:column;
+    align-items:center; justify-content:center; gap:10px;
+    color:var(--text); text-shadow:0 3px 14px rgba(0,0,0,.35);
+  }
+  h1{font-size:100px; letter-spacing:2px; margin:0; animation:pulse 1.6s infinite}
+  h2{font-size:22px; font-weight:800; margin:0; opacity:.95}
+  @keyframes pulse{
+    0%,100%{transform:scale(1)}
+    50%{transform:scale(1.12)}
+  }
+
+  /* Kalpler */
+  .hearts{position:fixed; inset:0; pointer-events:none; z-index:0}
+  .heart{
+    position:absolute; top:100vh;
+    color:var(--heart);
+    text-shadow:0 0 6px rgba(255,45,114,.6), 0 6px 12px rgba(0,0,0,.25);
+    filter: drop-shadow(0 6px 10px rgba(0,0,0,.25));
+    opacity:.95; will-change: transform, opacity;
+    animation:floatUp linear forwards;
+  }
+  @keyframes floatUp{
+    0%   {transform:translate(var(--x,0), 0) scale(var(--s,1)) rotate(0deg); opacity:.95}
+    100% {transform:translate(calc(var(--x,0) + 20px), -110vh) scale(calc(var(--s,1)*1.4)) rotate(12deg); opacity:0}
+  }
+
+  /* Metinler üstte kalsın */
+  .content{position:relative; z-index:1; text-align:center}
+</style>
+</head>
+<body>
+  <div class="content">
+    <h1>NESİL</h1>
+    <h2>Seni Seviyorum İyiki Varsın  @Dev:ζ͜͡𝐊𝐔𝐑𝐒𝐀𝐃ヤ</h2>
+  </div>
+
+  <div class="hearts" id="hearts"></div>
+
+  <script>
+    const wrap = document.getElementById("hearts");
+
+    function createHeart(){
+      const h = document.createElement("div");
+      h.className = "heart";
+      h.textContent = "❤";                           // istersen "💗" yapabilirsin
+      const size = Math.random()*40 + 18;            // 18–58 px
+      const dur  = Math.random()*3 + 3.5;            // 3.5–6.5 sn
+      const left = Math.random()*100;                // % konum
+      const drift = (Math.random()*80 - 40) + "px";  // sağ/sol sallanma
+      h.style.left = left + "vw";
+      h.style.fontSize = size + "px";
+      h.style.animationDuration = dur + "s";
+      h.style.setProperty("--x", drift);
+      h.style.setProperty("--s", (size/40).toFixed(2));
+      wrap.appendChild(h);
+      setTimeout(()=> h.remove(), dur*1000);
+    }
+
+    // Daha dolu ve belirgin kalpler
+    setInterval(createHeart, 120);
+    // sayfa açılır açılmaz birkaç tane birden üret
+    for(let i=0;i<15;i++){ setTimeout(createHeart, i*120); }
+  </script>
+</body>
+</html>
